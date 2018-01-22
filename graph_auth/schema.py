@@ -21,10 +21,10 @@ from django.utils.http import urlsafe_base64_encode
 
 UserModel = django.contrib.auth.get_user_model()
 
-class DynamicUsernameMeta(type):
+class DynamicUsernameMeta(relay.ClientIDMutation):
     def __new__(mcs, classname, bases, dictionary):
         dictionary[UserModel.USERNAME_FIELD] = graphene.String(required=True)
-        return type.__new__(mcs, classname, bases, dictionary)
+        return relay.ClientIDMutation.__new__(mcs, classname, bases, dictionary)
 
 class UserNode(DjangoObjectType):
     class Meta:
